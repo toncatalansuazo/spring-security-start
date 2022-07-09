@@ -1,0 +1,18 @@
+spring:
+  datasource.url: jdbc:mysql://localhost:33060/treip
+  datasource.username: root
+  datasource.password: changeit
+#  jpa.generate-ddl: true
+  jpa.properties.hibernate.format_sql: true
+  jpa.show-sql: true
+  ## save date in UTC FORMAT so to bring it to italian time zone add 2 hours
+  jpa.properties.hibernate.jdbc.time_zone: UTC
+  jpa.hibernate.ddl-auto: create-drop
+
+---
+spring:
+  config.activate.on-profile: prod
+  jpa.properties.hibernate.format_sql: false
+  jpa.show-sql: false
+  jpa.hibernate.ddl-auto: none
+
