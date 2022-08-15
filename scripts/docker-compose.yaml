@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:5.7
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - 3306:3306
+      # Where our data will be persisted
+    volumes:
+      - treip:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: changeit
+      MYSQL_DATABASE: treip
+volumes:
+  treip:
