@@ -49,7 +49,7 @@ public class ApplicationSecurityConfig {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests()
-            .antMatchers(LOGIN_URL, REFRESH_TOKEN_URL, "/swagger-ui.html", "/swagger-ui", "/*.js", "/*.css", "/resources/**")
+            .antMatchers(LOGIN_URL, "/swagger-ui.html", "/swagger-ui", "/*.js", "/*.css", "/resources/**")
             .permitAll()
             .antMatchers("/api/**")
             .authenticated()

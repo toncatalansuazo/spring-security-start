@@ -26,7 +26,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
-        if (request.getServletPath().equals(ApplicationSecurityConfig.LOGIN_URL) || request.getServletPath().equals(ApplicationSecurityConfig.REFRESH_TOKEN_URL)) {
+        if (request.getServletPath().equals(ApplicationSecurityConfig.LOGIN_URL)) {
             try {
                 chain.doFilter(request, response);
             } catch (IllegalArgumentException e) {

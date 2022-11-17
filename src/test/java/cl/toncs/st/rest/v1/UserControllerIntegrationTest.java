@@ -55,6 +55,28 @@ class UserControllerIntegrationTest extends BaseTestContainer {
     private RoleRepository roleRepository;
 
     @Test
+    void given_request_without_access_token_then_dail() {
+        var body = """
+             {
+                "email":"some-email@gmail.com",
+                "authorities":[{"authority":"ROLE_USER"}],
+                "password":"password"
+             }
+            """;
+
+        given()
+                .accept(ContentType.JSON)
+                .port(port)
+                .contentType("application/json")
+                .body(body)
+                .when()
+                .get("/api/v1/users")
+                .then()
+                .log()
+                .ifValidationFails(ALL)
+                .statusCode(HttpStatus.SC_FORBIDDEN);
+    }
+    @Test
     void given_user_json_when_json_is_valid_then_create_user() {
         var body = """
              {
