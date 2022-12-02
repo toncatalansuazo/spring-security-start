@@ -55,8 +55,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private ErrorModel toErrorJsonResponseError(Set<ConstraintViolation<DentalUserLogin>> violations) {
         var details = violations.stream().map(v -> "Field `" + v.getPropertyPath() + "`: " + v.getMessage()).collect(Collectors.joining("\n. "));
-        var error = new ErrorModel(HttpStatus.BAD_REQUEST, "invalid request body", details);
-        return error;
+        return new ErrorModel(HttpStatus.BAD_REQUEST, "invalid request body", details);
     }
 
     private DentalUserLogin extracted(HttpServletRequest request) throws AuthenticationException {

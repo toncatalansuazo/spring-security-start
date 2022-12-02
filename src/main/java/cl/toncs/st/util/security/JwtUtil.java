@@ -2,7 +2,6 @@ package cl.toncs.st.util.security;
 
 import cl.toncs.st.domain.user.DentalUserDetails;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -13,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -46,7 +46,7 @@ public class JwtUtil {
     public String generateToken(DentalUserDetails userDetails) {
 
         var roles = userDetails.getAuthorities().stream()
-                               .map(role -> role.getAuthority())
+                               .map(GrantedAuthority::getAuthority)
                                .toList();
         var claims = Map.of("roles", roles);
 
@@ -80,8 +80,6 @@ public class JwtUtil {
             return true;
         } catch (MalformedJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
             throw new BadCredentialsException("INVALID_CREDENTIALS", ex);
-        } catch (ExpiredJwtException ex) {
-            throw ex;
         }
     }
 
@@ -99,9 +97,5 @@ public class JwtUtil {
                     .map(SimpleGrantedAuthority::new)
                     .toList();
 
-    }
-
-    class ClaimsToken {
-        List<String> authority;
     }
 }

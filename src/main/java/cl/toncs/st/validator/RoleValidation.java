@@ -17,9 +17,9 @@ import javax.validation.Payload;
 @Constraint(validatedBy = RoleValidator.class)
 public @interface RoleValidation {
     //error message
-    public String message() default "Invalid ROLE";
+    String message() default "Invalid ROLE";
     //represents group of constraints
-    public Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
     //represents additional information about annotation
-    public Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

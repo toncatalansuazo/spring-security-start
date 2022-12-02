@@ -13,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 public class CreateAdminUser extends ChangelogBase {
-    private PasswordEncoder passwordEncoder;
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     public CreateAdminUser(@Nonnull PasswordEncoder passwordEncoder, @Nonnull UserRepository userRepository, @Nonnull RoleRepository roleRepository) {
         this.passwordEncoder = passwordEncoder;

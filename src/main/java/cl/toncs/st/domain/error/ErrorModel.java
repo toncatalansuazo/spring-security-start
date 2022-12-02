@@ -9,13 +9,13 @@ import org.springframework.http.HttpStatus;
 @ToString
 public class ErrorModel {
 
-    private HttpStatus httpStatus;
+    private final HttpStatus httpStatus;
 
-    private LocalDateTime timestamp;
+    private final LocalDateTime timestamp;
 
-    private String message;
+    private final String message;
 
-    private String details;
+    private final String details;
 
     public ErrorModel(HttpStatus httpStatus, String message, String details) {
         this.httpStatus = httpStatus;

@@ -293,7 +293,7 @@ class UserControllerIntegrationTest extends BaseTestContainer {
         // user should be update
             .statusCode(BAD_REQUEST.value())
             .body("message", Matchers.equalTo("Validation Error"))
-            .body("details", Matchers.equalTo("Unrecognized field \"name\" (class cl.toncs.st.domain.user.PatchDentalUser)"));
+            .body("details", Matchers.equalTo("Unrecognized field \"name\" (class cl.toncs.st.domain.user.PatchDentalUser), not marked as ignorable (4 known properties: \"authorities\", \"password\", \"email\", \"username\"])\n at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 4, column: 14] (through reference chain: cl.toncs.st.domain.user.PatchDentalUser[\"name\"])"));
     }
 
     @Test

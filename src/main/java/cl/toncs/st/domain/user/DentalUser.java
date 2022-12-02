@@ -60,18 +60,8 @@ public class DentalUser implements DentalUserDetails {
         this.password = password;
         this.username = email;
         this.email = email;
-        this.authorities = roles.stream()
-                                .filter(role -> !role.getAuthority().equals(RoleType.ROLE_ADMIN))
-                                .collect(Collectors.toSet());
+        this.authorities = roles;
     }
-
-//    public DentalUser(String password, String email, Set<GrantedAuthority> authorities) {
-//        this.password = password;
-//        this.username = email;
-//        this.email = email;
-//        this.authorities = authorities;
-//    }
-
     public DentalUser(UserEntity user) {
         this.password = user.getPassword();
         this.authorities = user.getRoles().stream()

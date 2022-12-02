@@ -16,34 +16,33 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-
+    private static final String VALIDATION_ERROR = "Validation Error";
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         var details = ex.getBindingResult().getFieldErrors().stream()
                                                                          .map(err -> String.format("Wrong field %s: %s. Value in request = %s.", err.getField(), err.getDefaultMessage(), err.getRejectedValue()))
                                                                          .collect(Collectors.joining("\n"));
-        ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Validation Error", details);
+        ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, VALIDATION_ERROR, details);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status,
                                                                   WebRequest request) {
-        ErrorModel error = null;
+        final ErrorModel error;
         if (ex.getCause() instanceof InvalidRoleException invalidRoleException) {
-            error = new ErrorModel(HttpStatus.BAD_REQUEST, "Validation Error", invalidRoleException.getCause().getCause().getLocalizedMessage());
+            error = new ErrorModel(HttpStatus.BAD_REQUEST, VALIDATION_ERROR, invalidRoleException.getCause().getCause().getLocalizedMessage());
         } else if (ex.getCause() instanceof JsonMappingException jsonMappingException) {
-            error = new ErrorModel(HttpStatus.BAD_REQUEST, "Validation Error", jsonMappingException.getLocalizedMessage());
+            error = new ErrorModel(HttpStatus.BAD_REQUEST, VALIDATION_ERROR, jsonMappingException.getLocalizedMessage());
         } else {
-            error = new ErrorModel(HttpStatus.BAD_REQUEST, "Validation Error", ex.getCause().getMessage());
+            error = new ErrorModel(HttpStatus.BAD_REQUEST, VALIDATION_ERROR, ex.getCause().getMessage());
         }
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({InvalidRoleException.class, BadCredentialsException.class})
-    public ResponseEntity<Object> handleInvalidRoleException(
-        Exception ex, WebRequest request) {
-        ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, "Validation Error", ex.getCause().getLocalizedMessage());
+    public ResponseEntity<Object> handleInvalidRoleException( Exception ex) {
+        ErrorModel error = new ErrorModel(HttpStatus.BAD_REQUEST, VALIDATION_ERROR, ex.getCause().getLocalizedMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

@@ -16,10 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @ToString(callSuper = true)
@@ -29,6 +27,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @Entity(name = "User")
 @Table(name = "users")
+@EqualsAndHashCode(callSuper = false)
 public class UserEntity extends BaseEntity {
 
     @Id
@@ -67,7 +66,7 @@ public class UserEntity extends BaseEntity {
     @Column
     private boolean enabled = true;
 
-    @Column(nullable = true)
+    @Column
     private LocalDateTime expiredAt;
 
     public UserEntity(@Nonnull String username,
